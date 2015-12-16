@@ -1,8 +1,5 @@
 <?php
 /**
- * 29:00
- */
-/**
  * decorator.php
  * Реализация паттерна Декоратор
  *
@@ -10,6 +7,13 @@
  * Классы должны быть открыты к расширению и закрыты для изменений
  * Стремиться к тому, чтобы классы могли "обрастать" поведением без изменения кода
  * Но без фанатизма
+ *
+ * Наследуем интерфейс, а не поведение.
+ * Композиция - для расширения поведения.
+ * Композиция дает свободу в режиме выполнения
+ * Свобода во время выполнения программы. Составление на лету.
+ * Вместо абстрактного класса может быть интерфейс - все зависит от исходной структуры.
+ * Не использовать проверку на типы.
  *
  * @author      Pereskokov Yurii
  * @copyright   2015 Pereskokov Yurii
@@ -41,27 +45,55 @@ abstract class CondimentsDecoratorBase extends BeverageBase
 
 }
 
+/**
+ * Class MilkCondiment
+ * Класс расширяет функциональность
+ */
 class MilkCondiment extends CondimentsDecoratorBase
 {
+    private $beverage;
+
+    function __construct($beverage)
+    {
+        $this->beverage = $beverage;
+        $this->description = $this->beverage->getDescription() . ' + Milk';
+    }
+
     public function getCost()
     {
-
+        return $this->beverage->getCost() + 50;
     }
 }
 
 class SugarCondiment extends CondimentsDecoratorBase
 {
+    private $beverage;
+
+    function __construct($beverage)
+    {
+        $this->beverage = $beverage;
+        $this->description = $this->beverage->getDescription() . ' + Sugar';
+    }
+
     public function getCost()
     {
-
+        return $this->beverage->getCost() + 10;
     }
 }
 
 class ChocolateCondiment extends CondimentsDecoratorBase
 {
+    private $beverage;
+
+    function __construct($beverage)
+    {
+        $this->beverage = $beverage;
+        $this->description = $this->beverage->getDescription() . ' + Chocolate';
+    }
+
     public function getCost()
     {
-
+        return $this->beverage->getCost() + 70;
     }
 }
 
@@ -93,37 +125,25 @@ class BlackTea extends BeverageBase
     }
 }
 
-class Capuccino extends BeverageBase
+class GreenTea extends BeverageBase
 {
     function __construct()
     {
-        $this->description = 'Coffee with steamed milk';
+        $this->description = 'Green leaf tea';
     }
 
     public function getCost()
     {
-        return 200;
-    }
-}
-
-class HotChocolate extends BeverageBase
-{
-    function __construct()
-    {
-        $this->description = 'Sweet hot chocolate';
-    }
-
-    public function getCost()
-    {
-        return 200;
+        return 125;
     }
 }
 
 $beverages = [
-    new Capuccino(),
     new BlackTea(),
     new Espresso(),
-    new HotChocolate()
+    new GreenTea(),
+    new SugarCondiment(new MilkCondiment(new Espresso())),
+    new SugarCondiment(new GreenTea())
 ];
 
 /**
@@ -134,7 +154,6 @@ foreach ($beverages as $beverage) {
     echo $beverage->getCost() . '<br />' ;
     echo '<br />';
 }
-
 
 /**
  * Проблема в том, что возникнет большое количество классов напитков, с которыми
