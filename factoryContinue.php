@@ -1,8 +1,5 @@
 <?php
 /**
- * 36:40
- */
-/**
  * factoryContinue.php
  * Реализация паттерна Фабрика в более усложненном варианте
  *
@@ -11,6 +8,11 @@
  *
  * Паттерн инкапсулирует создание объектов
  * 2е иерархии классов получилось в результате
+ *
+ * Фабричный метод - использует наследование
+ * Абстрактная фабрика - композицию
+ * Фабричный метод - призван создавать лишь продукт
+ * Абстрактная фабрика - семейство продуктов сразу
  *
  * @author      Pereskokov Yurii
  * @copyright   2015 Pereskokov Yurii
@@ -85,8 +87,41 @@ abstract class CarPartsFactory
     public abstract function createWheels();
 }
 
+class RussianCarPartsFactory extends CarPartsFactory
+{
+    public function createEngine()
+    {
+        return new GasolineEngine();
+    }
 
+    public function createPaint()
+    {
+        return new BlackPaint();
+    }
 
+    public function createWheels()
+    {
+        return new MediumWheels();
+    }
+}
+
+class DeutschCarPartsFactory extends CarPartsFactory
+{
+    public function createEngine()
+    {
+        return new DieselEngine();
+    }
+
+    public function createPaint()
+    {
+        return new WhitePaint();
+    }
+
+    public function createWheels()
+    {
+        return new BigWheels();
+    }
+}
 
 /**
  * Class Car
@@ -124,93 +159,107 @@ abstract class Car
     }
 }
 
-/**
- * Иерархия классов машин
- */
-class DeutschGolf extends Car
+class Golf extends Car
 {
-    function __construct()
+    private $factory;
+
+    function __construct($factory)
     {
+        $this->factory = $factory;
         $this->name = 'Golf';
         $this->body = 'Hatchback';
-    }
-}
-
-class DeutschPassat extends Car
-{
-    function __construct()
-    {
-        $this->name = 'Passat';
-        $this->body = 'Sedan';
-    }
-}
-
-class DeutschTiguan extends Car
-{
-    function __construct()
-    {
-        $this->name = 'Tiguan';
-        $this->body = 'Crossover';
-    }
-}
-
-class DeutschTouareg extends Car
-{
-    function __construct()
-    {
-        $this->name = 'Touareg';
-        $this->body = 'Big Crossover';
-    }
-}
-
-
-
-
-class RussianGolf extends Car
-{
-    function __construct()
-    {
-        $this->name = 'Golf';
-        $this->body = 'Hatchback';
+        $this->engine = 'Gasoline';
     }
 
     public function configure()
     {
         echo $this->name . '<br />' ;
-        echo $this->engine . '<br />' ;
-        echo $this->paintColor . '<br />' ;
-        echo $this->wheels . '<br />' ;
         echo $this->body . '<br />' ;
+
+        $this->engine = $this->factory->CreateEngine();
+        echo '<br />';
+        $this->paint = $this->factory->CreatePaint();
+        echo '<br />';
+        $this->wheels = $this->factory->CreateWheels();
+        echo '<br />';
     }
 }
 
-class RussianPassat extends Car
+class Passat extends Car
 {
-    function __construct()
+    private $factory;
+
+    function __construct($factory)
     {
+        $this->factory = $factory;
         $this->name = 'Passat';
         $this->body = 'Sedan';
         $this->engine = 'Gasoline';
     }
+
+    public function configure()
+    {
+        echo $this->name . '<br />' ;
+        echo $this->body . '<br />' ;
+
+        $this->engine = $this->factory->CreateEngine();
+        echo '<br />';
+        $this->paint = $this->factory->CreatePaint();
+        echo '<br />';
+        $this->wheels = $this->factory->CreateWheels();
+        echo '<br />';
+    }
 }
 
-class RussianTiguan extends Car
+class Tiguan extends Car
 {
-    function __construct()
+    private $factory;
+
+    function __construct($factory)
     {
+        $this->factory = $factory;
         $this->name = 'Tiguan';
         $this->body = 'Crossover';
         $this->engine = 'Gasoline';
     }
+
+    public function configure()
+    {
+        echo $this->name . '<br />' ;
+        echo $this->body . '<br />' ;
+
+        $this->engine = $this->factory->CreateEngine();
+        echo '<br />';
+        $this->paint = $this->factory->CreatePaint();
+        echo '<br />';
+        $this->wheels = $this->factory->CreateWheels();
+        echo '<br />';
+    }
 }
 
-class RussianTouareg extends Car
+class Touareg extends Car
 {
-    function __construct()
+    private $factory;
+
+    function __construct($factory)
     {
+        $this->factory = $factory;
         $this->name = 'Touareg';
         $this->body = 'Big Crossover';
         $this->engine = 'Gasoline';
+    }
+
+    public function configure()
+    {
+        echo $this->name . '<br />' ;
+        echo $this->body . '<br />' ;
+
+        $this->engine = $this->factory->CreateEngine();
+        echo '<br />';
+        $this->paint = $this->factory->CreatePaint();
+        echo '<br />';
+        $this->wheels = $this->factory->CreateWheels();
+        echo '<br />';
     }
 }
 
@@ -245,22 +294,22 @@ class DeutschVolkswagenFacility extends VolkswagenFacility
 {
     public function createCar($type)
     {
-        $car = new Car();
+        $carPartsFactory = new DeutschCarPartsFactory();
 
         if ($type === 'Golf') {
-            $car = new DeutschGolf();
+            return new Golf($carPartsFactory);
         }
         if ($type === 'Passat') {
-            $car = new DeutschPassat();
+            return new Passat($carPartsFactory);
         }
         if ($type === 'Tiguan') {
-            $car = new DeutschTiguan();
+            return new Tiguan($carPartsFactory);
         }
         if ($type === 'Touareg') {
-            $car = new DeutschTouareg();
+            return new Touareg($carPartsFactory);
         }
 
-        return $car;
+        return null;
     }
 }
 
@@ -268,22 +317,22 @@ class RussianVolkswagenFacility extends VolkswagenFacility
 {
     public function createCar($type)
     {
-        $car = new Car();
+        $carPartsFactory = new RussianCarPartsFactory();
 
         if ($type === 'Golf') {
-            $car = new RussianGolf();
+            return new Golf($carPartsFactory);
         }
         if ($type === 'Passat') {
-            $car = new RussianPassat();
+            return new Passat($carPartsFactory);
         }
         if ($type === 'Tiguan') {
-            $car = new RussianTiguan();
+            return new Tiguan($carPartsFactory);
         }
         if ($type === 'Touareg') {
-            $car = new RussianTouareg();
+            return new Touareg($carPartsFactory);
         }
 
-        return $car;
+        return null;
     }
 }
 
@@ -291,6 +340,13 @@ class RussianVolkswagenFacility extends VolkswagenFacility
  * Отображение результатов
  */
 $facility = new RussianVolkswagenFacility();
+
+$facility->getCar('Golf');
+$facility->getCar('Passat');
+$facility->getCar('Tiguan');
+$facility->getCar('Touareg');
+
+$facility = new DeutschVolkswagenFacility();
 
 $facility->getCar('Golf');
 $facility->getCar('Passat');
