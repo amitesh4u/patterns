@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ * 25:02
  */
 /**
  * command.php
@@ -17,12 +17,56 @@ interface ICommand
     function execute();
 }
 
+class LightsCommand implements ICommand
+{
+    public function execute()
+    {
+        echo 'Свет включен';
+    }
 
+    public function _toString()
+    {
+        return 'Включить свет';
+    }
+}
 
+class TvCommand implements ICommand
+{
+    public function execute()
+    {
+        echo 'Телевизор включен';
+    }
 
+    public function _toString()
+    {
+        return 'Включить телевизор';
+    }
+}
+
+class MusicCommand implements ICommand
+{
+    public function execute()
+    {
+        echo 'Музыка включена';
+    }
+
+    public function _toString()
+    {
+        return 'Включить свет';
+    }
+}
 
 class RemoteControl
 {
+    private $commands;
+
+    function __construct()
+    {
+        $this->commands['1'] = new LightsCommand();
+        $this->commands['2'] = new TvCommand();
+        $this->commands['3'] = new MusicCommand();
+    }
+
     public function drawMenu()
     {
         echo 'Выберете вариант ниже:' . '<br />';
@@ -40,50 +84,36 @@ class RemoteControl
         echo 'Ваш выбор: ' . $input . '<br />';
 
         switch ($input) {
-            case '1':
-                $this->turnLightOn();
-                break;
             case '2':
                 $this->turnLightOff();
                 break;
-            case '3':
-                $this->turnMusicOn();
-                break;
             case '4':
                 $this->turnMusicOff();
-                break;
-            case '5':
-                $this->turnTvOn();
                 break;
             case '6':
                 $this->turnTvOff();
                 break;
         }
+
+        if (isset($this->commands[$input])) {
+            $this->commands[$input]->execute();
+        }
     }
 
-    private function turnLightOn()
+    public function setCommandForButton($buttonId, $cmd)
     {
-        echo 'Свет включен';
+        $this->commands[$buttonId] = $cmd;
     }
+
 
     private function turnLightOff()
     {
         echo 'Свет выключен';
     }
 
-    private function turnMusicOn()
-    {
-        echo 'Музыка включена';
-    }
-
     private function turnMusicOff()
     {
         echo 'Музыка выключена';
-    }
-
-    private function turnTvOn()
-    {
-        echo 'Телевизор включен';
     }
 
     private function turnTvOff()
@@ -97,4 +127,4 @@ $control = new RemoteControl();
 $control->drawMenu();
 echo '<br />';
 echo '<br />';
-$control->performAction('2');
+$control->performAction('1');
