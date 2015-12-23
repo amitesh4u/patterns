@@ -1,6 +1,6 @@
 <?php
 /**
- * 39:02
+ * 52:50
  */
 /**
  * command.php
@@ -18,16 +18,101 @@
  * @link        http://www.mediasite.ru/
  */
 
+define( 'STATE_ON', 1 );
+define( 'STATE_OFF', 0 );
+
+class Light
+{
+    public $state;
+
+    public function turnOn()
+    {
+        echo 'Свет включен';
+        $this->state = STATE_ON;
+    }
+
+    public function turnOff()
+    {
+        echo 'Свет выключен';
+        $this->state = STATE_OFF;
+    }
+}
+
+class Misic
+{
+    public $state;
+
+    public function turnOn()
+    {
+        echo 'Музыка включена';
+        $this->state = STATE_ON;
+    }
+
+    public function turnOff()
+    {
+        echo 'Музыка выключена';
+        $this->state = STATE_OFF;
+    }
+}
+
+class Teapot
+{
+    public $state;
+
+    public function turnOn()
+    {
+        echo 'Чайник включен';
+        $this->state = STATE_ON;
+    }
+
+    public function turnOff()
+    {
+        echo 'Чайник выключен';
+        $this->state = STATE_OFF;
+    }
+}
+
+class Tv
+{
+    public $state;
+
+    public function turnOn()
+    {
+        echo 'Телевизор включен';
+        $this->state = STATE_ON;
+    }
+
+    public function turnOff()
+    {
+        echo 'Телевизор выключен';
+        $this->state = STATE_OFF;
+    }
+}
+
 interface ICommand
 {
     function execute();
+
+    function undo();
 }
 
 class LightsCommand implements ICommand
 {
+    private $light;
+
+    function __construct($light)
+    {
+        $this->light = $light;
+    }
+
     public function execute()
     {
-        echo 'Свет включен';
+        $this->light->turnOn();
+    }
+
+    public function undo()
+    {
+        $this->light->turnOff();
     }
 
     public function __toString()
@@ -38,9 +123,21 @@ class LightsCommand implements ICommand
 
 class TvCommand implements ICommand
 {
+    private $tv;
+
+    function __construct($tv)
+    {
+        $this->tv = $tv;
+    }
+
     public function execute()
     {
-        echo 'Телевизор включен';
+        $this->tv->turnOn();
+    }
+
+    public function undo()
+    {
+        $this->tv->turnOff();
     }
 
     public function __toString()
@@ -51,9 +148,21 @@ class TvCommand implements ICommand
 
 class MusicCommand implements ICommand
 {
+    private $music;
+
+    function __construct($music)
+    {
+        $this->music = $music;
+    }
+
     public function execute()
     {
-        echo 'Музыка включена';
+        $this->music->turnOn();
+    }
+
+    public function undo()
+    {
+        $this->music->turnOff();
     }
 
     public function __toString()
@@ -64,9 +173,21 @@ class MusicCommand implements ICommand
 
 class TeapotCommand implements ICommand
 {
+    private $teapot;
+
+    function __construct($teapot)
+    {
+        $this->teapot = $teapot;
+    }
+
     public function execute()
     {
-        echo 'Чайник включен';
+        $this->teapot->turnOn();
+    }
+
+    public function undo()
+    {
+        $this->teapot->turnOff();
     }
 
     public function __toString()
@@ -84,22 +205,17 @@ class RemoteControl
     {
     }
 
-    public function drawMenu()
+    public function pushButton($input)
     {
-        echo 'Выберете вариант ниже:' . '<br />';
-
-        foreach ($this->commands as $key => $command) {
-            echo $key . ' - ' . (string)$command;
-            echo '<br />';
+        if (isset($this->commands[$input])) {
+            $this->commands[$input]->execute();
         }
     }
 
-    public function performAction($input)
+    public function undoButton($input)
     {
-        echo 'Ваш выбор: ' . $input . '<br />';
-
         if (isset($this->commands[$input])) {
-            $this->commands[$input]->execute();
+            $this->commands[$input]->undo();
         }
     }
 
@@ -107,15 +223,28 @@ class RemoteControl
     {
         $this->commands[$buttonId] = $cmd;
     }
+
+    public function __toString()
+    {
+        $str = 'Выберете вариант ниже:' . '<br />';
+
+        foreach ($this->commands as $key => $command) {
+            $str = $str . $key . ' - ' . (string)$command . '<br />';
+        }
+
+        return $str;
+    }
 }
 
 $control = new RemoteControl();
-$control->setCommandForButton('1', new LightsCommand());
-$control->setCommandForButton('2', new TvCommand());
-$control->setCommandForButton('3', new MusicCommand());
-$control->setCommandForButton('4', new TeapotCommand());
+$control->setCommandForButton('1', new LightsCommand(new Light()));
+$control->setCommandForButton('2', new TvCommand(new Tv()));
+$control->setCommandForButton('3', new MusicCommand(new Misic()));
+$control->setCommandForButton('4', new TeapotCommand(new Teapot()));
 
-$control->drawMenu();
+echo (string)$control;
 echo '<br />';
 echo '<br />';
-$control->performAction('4');
+$control->pushButton('4');
+echo '<br />';
+$control->undoButton('4');
