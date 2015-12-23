@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ce9aa1ac-6fd0-4b97-8c6b-9e37392d5fbd" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/command.php" afterPath="$PROJECT_DIR$/command.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
     </list>
     <ignored path="patterns.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,20 +28,42 @@
       <file leaf-file-name="index.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.9230769">
-              <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
+            <state vertical-scroll-proportion="-5.230769">
+              <caret line="8" column="46" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="command.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/command.php">
+      <file leaf-file-name="adapter.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/adapter.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.896088">
-              <caret line="248" column="14" selection-start-line="248" selection-start-column="14" selection-end-line="248" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.020782396">
+              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="commandContinue.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/commandContinue.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
                 <element signature="e#6#22#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="command.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/command.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-9.807693">
+              <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
+              <folding>
+                <element signature="e#6#394#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -59,8 +82,9 @@
         <option value="$PROJECT_DIR$/decorator.php" />
         <option value="$PROJECT_DIR$/factory.php" />
         <option value="$PROJECT_DIR$/factoryContinue.php" />
-        <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/command.php" />
+        <option value="$PROJECT_DIR$/index.php" />
+        <option value="$PROJECT_DIR$/adapter.php" />
       </list>
     </option>
   </component>
@@ -135,6 +159,11 @@
     <property name="settings.editor.selected.configurable" value="reference.settings.php.debug.xdebug.proxy" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="WebServerToolWindowFactoryState" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\OpenServer\domains\localhost\patterns" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
@@ -233,7 +262,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#6#22#0#PHP" expanded="true" />
+            <element signature="e#6#394#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -261,7 +290,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#6#22#0#PHP" expanded="true" />
+            <element signature="e#6#394#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -289,7 +318,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#6#22#0#PHP" expanded="true" />
+            <element signature="e#6#394#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -462,21 +491,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/command.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-9.807693">
+          <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
+          <folding>
+            <element signature="e#6#394#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/commandContinue.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#6#22#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.9230769">
-          <caret line="6" column="48" selection-start-line="6" selection-start-column="48" selection-end-line="6" selection-end-column="48" />
+        <state vertical-scroll-proportion="-5.230769">
+          <caret line="8" column="46" selection-start-line="8" selection-start-column="46" selection-end-line="8" selection-end-column="46" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/command.php">
+    <entry file="file://$PROJECT_DIR$/adapter.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.896088">
-          <caret line="248" column="14" selection-start-line="248" selection-start-column="14" selection-end-line="248" selection-end-column="14" />
-          <folding>
-            <element signature="e#6#22#0#PHP" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.020782396">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
