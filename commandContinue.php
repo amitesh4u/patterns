@@ -1,6 +1,6 @@
 <?php
 /**
- * 52:50
+ * 54:33
  */
 /**
  * command.php
@@ -21,12 +21,22 @@
 define( 'STATE_ON', 1 );
 define( 'STATE_OFF', 0 );
 
+define( 'STATE_LOW', 2 );
+define( 'STATE_MEDIUM', 3 );
+define( 'STATE_HIGH', 3 );
+
+
 class Light
 {
     public $state;
 
-    public function turnOn()
+    public function toggleLight()
     {
+        switch($state)
+        {
+
+        }
+
         echo 'Свет включен';
         $this->state = STATE_ON;
     }
