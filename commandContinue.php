@@ -32,10 +32,12 @@ class Light
 
     public function toggleLight()
     {
+        /*
         switch($state)
         {
 
         }
+        */
 
         echo 'Свет включен';
         $this->state = STATE_ON;

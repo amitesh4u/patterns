@@ -7,4 +7,4 @@
 <div><a href="factoryContinue.php"> >> Фабричный метод</a></div>
 <div><a href="command.php"> >> Команда</a></div>
 <div><a href="commandContinue.php"> >> Команда (продолжение)</a></div>
-<div><a href="commandContinue.php"> >> Адаптер (не реализовано)</a></div>
+<div><a href="adapter.php"> >> Адаптер</a></div>
