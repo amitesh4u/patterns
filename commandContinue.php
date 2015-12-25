@@ -23,7 +23,7 @@ define( 'STATE_OFF', 0 );
 
 define( 'STATE_LOW', 2 );
 define( 'STATE_MEDIUM', 3 );
-define( 'STATE_HIGH', 3 );
+define( 'STATE_HIGH', 4 );
 
 
 class Light
@@ -32,12 +32,24 @@ class Light
 
     public function toggleLight()
     {
-        /*
-        switch($state)
-        {
-
+        switch($this->state) {
+            case STATE_OFF:
+                $this->state = STATE_LOW;
+                echo 'Свет тусклый';
+                break;
+            case STATE_LOW:
+                $this->state = STATE_MEDIUM;
+                echo 'Свет средний';
+                break;
+            case STATE_MEDIUM:
+                $this->state = STATE_HIGH;
+                echo 'Свет яркий';
+                break;
+            case STATE_HIGH:
+                $this->state = STATE_LOW;
+                echo 'Свет тусклый';
+                break;
         }
-        */
 
         echo 'Свет включен';
         $this->state = STATE_ON;
