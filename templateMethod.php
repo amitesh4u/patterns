@@ -1,8 +1,5 @@
 <?php
 /**
- * 06:07
- */
-/**
  * templateMethod.php
  * Реализация паттерна "Шаблонный метод"
  *
@@ -12,8 +9,12 @@
  * @link        http://www.mediasite.ru/
  */
 
-class FastFood
+abstract class FastFood
 {
+    public abstract function prepareMainIngredient();
+
+    public abstract function addTopings();
+
     public function roastBread()
     {
         echo 'Bread';
@@ -24,57 +25,64 @@ class FastFood
         echo 'Vegetables';
     }
 
-    public abstract function prepare();
-}
-
-class Hamburger extends FastFood
-{
-    private function putVegetables()
+    public function customerWantsTopings()
     {
-        echo 'Vegetables';
+        return true;
     }
 
-    private function fryMeat()
-    {
-        echo 'Meat';
-    }
-
-    private function addKetchup()
-    {
-        echo 'Ketchup';
-    }
-
-    private function roastBread()
-    {
-        echo 'Bread';
-    }
-
+    /**
+     * Это и есть шаблонный метод
+     * он будет присутствовать во всех
+     * классах и не изменяться
+     */
     public function prepare()
     {
         $this->roastBread();
         echo '<br />';
-        $this->fryMeat();
+        $this->prepareMainIngredient();
         echo '<br />';
         $this->putVegetables();
         echo '<br />';
-        $this->addKetchup();
+
+        if ($this->customerWantsTopings()) {
+            $this->addTopings();
+        }
         echo '<br />';
+
+    }
+}
+
+class Hamburger extends FastFood
+{
+    public function prepareMainIngredient()
+    {
+        echo 'Meat';
+    }
+
+    public function addTopings()
+    {
+        echo 'Ketchup';
     }
 }
 
 class HotDog extends FastFood
 {
-    public function prepare()
+    public function customerWantsTopings()
     {
-        /*
-        $this->roastBread();
-        echo '<br />';
-        $this->fryMeat();
-        echo '<br />';
-        $this->putVegetables();
-        echo '<br />';
-        $this->addKetchup();
-        echo '<br />';
-        */
+        return false;
+    }
+
+    public function prepareMainIngredient()
+    {
+        echo 'Sausage';
+    }
+
+    public function addTopings()
+    {
+        echo 'Mustard';
     }
 }
+
+(new Hamburger())->prepare();
+echo '<br />';
+(new HotDog())->prepare();

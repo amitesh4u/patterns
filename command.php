@@ -89,7 +89,6 @@ class Tv
 interface ICommand
 {
     function execute();
-
     function undo();
 }
 
