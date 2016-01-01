@@ -9,5 +9,5 @@
 <div><a href="adapter.php"> >> Адаптер</a></div>
 <div><a href="facade.php"> >> Фасад</a></div>
 <div><a href="templateMethod.php"> >> Шаблонный метод</a></div>
-<div><a href="state.php"> >> Состояние (не реализовано)</a></div>
+<div><a href="state.php"> >> Состояние</a></div>
 <div><a href="builder.php"> >> Строитель (не реализовано)</a></div>

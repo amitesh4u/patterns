@@ -1,10 +1,15 @@
 <?php
 /**
- * 16:17
- */
-/**
  * state.php
  * Реализация паттерна Состояние
+ * 
+ * Паттерн Состояние применяется, если во время
+ * выполнения программы объекту необходимо
+ * менять свое поведение в зависимости от состояния
+ *
+ * Выносим поведение а отдельную иерархию классов
+ * Реализуем поведение для каждого возможного состояния
+ * Делегируем выполнение поведения классам - состояниям
  *
  * @author      Pereskokov Yurii
  * @copyright   2015 Pereskokov Yurii
@@ -33,6 +38,7 @@ class EmptyTankState implements IState
 	{
 		$this->car->gasoline = 70;
         echo 'Теперь бак полный';
+		$this->car->setState($this->car->fullTankState);
 	}
 	
 	public function turnKey()
@@ -68,6 +74,7 @@ class FullTankState implements IState
 	public function turnKey()
 	{
 		echo 'Дрын дын дын дын трррррр';
+		$this->car->setState($this->car->engineStartedState);
 	}
 	
 	public function drive()
@@ -98,6 +105,7 @@ class EngineStartedState implements IState
 	public function turnKey()
 	{
 		echo 'Тссссс Передышка';
+		$this->car->setState($this->car->fullTankState);
 	}
 	
 	public function drive()
@@ -114,9 +122,11 @@ class EngineStartedState implements IState
     {
 	    if ($this->car->gasoline > 0) {
 			echo 'Поехали!';
+			$this->car->setState($this->car->drivingState);
 			$this->car->gasoline -= 10;
 		} else {
 			echo 'Бензин кончился!';
+			$this->car->setState($this->car->emptyTankState);
 		}
     }
 }
@@ -148,40 +158,28 @@ class DrivingState implements IState
     public function stop()
 	{
 		echo 'Накатался? Ну все постоим ...';
+		$this->car->setState($this->car->engineStartedState);
 	}
 	
 	private function tryDrive()
     {
 	    if ($this->car->gasoline > 0) {
 			echo 'Поехали!';
-			$this->car->gasoline -= 10;
 		} else {
 			echo 'Бензин кончился!';
+			$this->car->setState($this->car->emptyTankState);
 		}
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class Car
 {
-    public $gasoline;
-	public $emptyTankState;
-	public $fullTankState;
-	public $engineStartedState;
-	public $drivingState;
+	private $currentState;
+    public  $gasoline;
+	public  $emptyTankState;
+	public  $fullTankState;
+	public  $engineStartedState;
+	public  $drivingState;
 	
 	function __construct()
     {
@@ -189,83 +187,41 @@ class Car
 		$this->fullTankState = new FullTankState($this);
 		$this->engineStartedState = new EngineStartedState($this);
 		$this->drivingState = new DrivingState($this);
+		
+		$this->currentState = $this->emptyTankState;
+		$this->gasoline = 0;
 	}
     
-
     public function fillTank()
     {
-        if ($this->state === EMPTY_TANK) {
-            $this->gasoline = 70;
-            $this->state = FULL_TANK;
-            echo 'Теперь бак полный';
-        } elseif ($this->state === ENGINE_STARTED) {
-            echo 'Нельзя заправляться с работающим двигателем';
-        } elseif ($this->state === DRIVING) {
-            echo 'Нельзя заправлять на ходу';
-        } elseif ($this->state === FULL_TANK) {
-            echo 'В меня столько не влезет';
-        }
+		$this->gasoline = 70;
+		$this->currentState->fillTank();
     }
 
     public function turnKey()
     {
-        if ($this->state === EMPTY_TANK) {
-			echo 'Без бензина не работаю';
-        } elseif ($this->state === ENGINE_STARTED) {
-			$this->state = FULL_TANK;
-            echo 'Тсссс. Передышка.';
-        } elseif ($this->state === DRIVING) {
-            echo 'На ходу ключ не трогать';
-        } elseif ($this->state === FULL_TANK) {
-			$this->state = ENGINE_STARTED;
-            echo 'Дрын дын дын дын трррррр';
-        }
+		$this->currentState->turnKey();
     }
 
     public function drive()
     {
-		if ($this->state === EMPTY_TANK) {
-			echo 'И как мы поедем без бензина? Никак!';
-        } elseif ($this->state === ENGINE_STARTED) {
-			$this->state = DRIVING;
-			$this->tryDrive();
-        } elseif ($this->state === DRIVING) {
-            $this->tryDrive();
-        } elseif ($this->state === FULL_TANK) {
-            echo 'Сначала заведи меня';
-        }
+		$this->currentState->drive();
+		$this->gasoline -= 10;
     }
 
     public function stop()
     {
-		if ($this->state === EMPTY_TANK) {
-			echo 'Нет бензина - значит и так стоим';
-        } elseif ($this->state === ENGINE_STARTED) {
-			echo 'Я и так стою';
-        } elseif ($this->state === DRIVING) {
-            $this->state = ENGINE_STARTED;
-			echo 'Накатался? Ну постоим ... ';
-        } elseif ($this->state === FULL_TANK) {
-            echo 'Я и так стою';
-        }
+		$this->currentState->stop();
     }
-
-    private function tryDrive()
-    {
-	    if ($this->gasoline > 0) {
-			echo 'Поехали!';
-			$this->gasoline -= 10;
-		} else {
-			echo 'Бензин кончился!';
-			$this->state = EMPTY_TANK;
-		}
-    }
+	
+	public function setState($state)
+	{
+		$this->currentState = $state;
+	}
 }
 
 $car = new Car();
 $car->fillTank();
-echo '<br />';
-$car->drive();
 echo '<br />';
 $car->turnKey();
 echo '<br />';
