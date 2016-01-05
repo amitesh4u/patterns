@@ -10,4 +10,4 @@
 <div><a href="facade.php"> >> Фасад</a></div>
 <div><a href="templateMethod.php"> >> Шаблонный метод</a></div>
 <div><a href="state.php"> >> Состояние</a></div>
-<div><a href="builder.php"> >> Строитель (не реализовано)</a></div>
+<div><a href="builder.php"> >> Строитель</a></div>
